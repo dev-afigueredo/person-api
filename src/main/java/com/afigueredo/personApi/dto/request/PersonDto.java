@@ -18,7 +18,6 @@ import java.util.List;
 @Data
 @Builder
 @AllArgsConstructor
-@NoArgsConstructor
 public class PersonDto {
 
     private Long id;
@@ -35,7 +34,7 @@ public class PersonDto {
     @CPF
     private String cpf;
 
-    private LocalDate birthDate;
+    private String birthDate;
 
     @Valid
     @NotEmpty
