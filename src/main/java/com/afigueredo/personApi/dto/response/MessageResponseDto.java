@@ -1,4 +1,4 @@
-package com.afigueredo.personApi.dto;
+package com.afigueredo.personApi.dto.response;
 
 import lombok.Builder;
 import lombok.Data;
