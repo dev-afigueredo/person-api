@@ -1,16 +1,23 @@
 package com.afigueredo.personApi.controller;
 
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import com.afigueredo.personApi.dto.MessageResponseDto;
+import com.afigueredo.personApi.entity.Person;
+import com.afigueredo.personApi.service.PersonService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/api/v1/person")
+@RequestMapping("/api/v1/people")
 public class PersonController {
 
-    @GetMapping
-    public String getPerson() {
-        return "Axel Figueredo";
+    @Autowired
+    private PersonService personService;
+
+    @PostMapping
+    @ResponseStatus(HttpStatus.CREATED)
+    public MessageResponseDto createPerson(@RequestBody Person person) {
+        return personService.createPerson(person);
     }
 
 }
