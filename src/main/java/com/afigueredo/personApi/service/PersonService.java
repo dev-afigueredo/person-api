@@ -6,6 +6,7 @@ import com.afigueredo.personApi.entity.Person;
 import com.afigueredo.personApi.exception.PersonNotFoundException;
 import com.afigueredo.personApi.mapper.PersonMapper;
 import com.afigueredo.personApi.repository.PersonRepository;
+import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -13,9 +14,9 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
+@AllArgsConstructor(onConstructor = @__(@Autowired))
 public class PersonService {
 
-    @Autowired
     PersonRepository personRepository;
 
     private static final PersonMapper personMapper = PersonMapper.INSTANCE;
