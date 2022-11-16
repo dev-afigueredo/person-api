@@ -2,6 +2,7 @@ package com.afigueredo.personApi.controller;
 
 import com.afigueredo.personApi.dto.response.MessageResponseDto;
 import com.afigueredo.personApi.dto.request.PersonDto;
+import com.afigueredo.personApi.exception.PersonNotFoundException;
 import com.afigueredo.personApi.service.PersonService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -26,6 +27,11 @@ public class PersonController {
     @GetMapping
     public List<PersonDto> listAll() {
         return personService.listAll();
+    }
+
+    @GetMapping("/{id}")
+    public PersonDto findById(@PathVariable Long id) throws PersonNotFoundException {
+        return personService.findById(id);
     }
 
 }

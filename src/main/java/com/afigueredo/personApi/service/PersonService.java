@@ -3,12 +3,14 @@ package com.afigueredo.personApi.service;
 import com.afigueredo.personApi.dto.request.PersonDto;
 import com.afigueredo.personApi.dto.response.MessageResponseDto;
 import com.afigueredo.personApi.entity.Person;
+import com.afigueredo.personApi.exception.PersonNotFoundException;
 import com.afigueredo.personApi.mapper.PersonMapper;
 import com.afigueredo.personApi.repository.PersonRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -36,5 +38,11 @@ public class PersonService {
         return allPeople.stream()
                 .map(personMapper::toDto)
                 .collect(Collectors.toList());
+    }
+
+    public PersonDto findById(Long id) throws PersonNotFoundException {
+        Person person = personRepository.findById(id).orElseThrow(() -> new PersonNotFoundException(id));
+
+        return personMapper.toDto(person);
     }
 }
