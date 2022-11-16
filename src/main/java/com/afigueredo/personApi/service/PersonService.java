@@ -9,9 +9,7 @@ import com.afigueredo.personApi.repository.PersonRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.persistence.PersistenceException;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -23,15 +21,10 @@ public class PersonService {
     private static final PersonMapper personMapper = PersonMapper.INSTANCE;
 
     public MessageResponseDto createPerson(PersonDto personDto) {
-        Person savedPerson = savePerson(personMapper.toModel(personDto));
-        return MessageResponseDto
-                .builder()
-                .message("Created person with ID " + savedPerson.getId())
-                .build();
-    }
+        Person personToSave = personMapper.toModel(personDto);
 
-    public Person savePerson(Person person) {
-        return personRepository.save(person);
+        Person savedPerson = personRepository.save(personToSave);
+        return createMessageResponse(savedPerson.getId(), "Created person with ID ");
     }
 
     public List<PersonDto> listAll() {
@@ -53,8 +46,23 @@ public class PersonService {
         personRepository.deleteById(id);
     }
 
+    public MessageResponseDto updateById(Long id, PersonDto personDto) throws PersonNotFoundException {
+        verifyIfExists(id);
+        Person personToUpdate = personMapper.toModel(personDto);
+
+        Person updatedPerson = personRepository.save(personToUpdate);
+        return createMessageResponse(updatedPerson.getId(), "Updated person with ID ");
+    }
+
     private Person verifyIfExists(Long id) throws PersonNotFoundException {
         return personRepository.findById(id)
                 .orElseThrow(() -> new PersonNotFoundException(id));
+    }
+
+    private MessageResponseDto createMessageResponse(Long id, String s) {
+        return MessageResponseDto
+                .builder()
+                .message(s + id)
+                .build();
     }
 }
